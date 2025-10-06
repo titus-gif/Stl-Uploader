@@ -1,46 +1,47 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>STL Uploader</title>
   <script src="https://js.bytescale.com/upload-widget/v3"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
-      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+      height: 100vh;
+      background: #fafafa;
     }
     h2 {
+      text-align: center;
       color: #333;
-      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
-  <h2>Upload je STL-bestand</h2>
-  <div id="uploader"></div>
+  <div>
+    <h2>Upload je STL-bestand</h2>
+    <div id="uploader"></div>
+  </div>
 
   <script>
     const uploader = Upload.create({
-      apiKey: "public_kW2K8ZP9YtV6V8k2kdfgZNxgNMFA", // vervang dit met je Bytescale public key
+      apiKey: "public_kW2K8ZP9YtV6V8k2kdfgZNxgNMFA", // 🔹 vervang dit met je echte public API key
       multi: false,
-      mimeTypes: ["model/stl"], // Alleen STL-bestanden
+      mimeTypes: ["model/stl"], // Alleen STL-bestanden toegestaan
       maxFileCount: 1,
       layout: "inline",
       container: "#uploader",
       onUpdate: files => {
         if (files.length > 0) {
           const file = files[0];
-          alert("✅ STL succesvol geüpload!\n\nDownloadlink:\n" + file.fileUrl);
+          alert(`✅ STL geüpload!\n\nDownloadlink:\n${file.fileUrl}`);
           console.log("STL geüpload:", file.fileUrl);
         }
       }
     });
-
     uploader.mount("#uploader");
   </script>
 </body>
