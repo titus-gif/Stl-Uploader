@@ -1,48 +1,50 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>STL Uploader</title>
-  <script src="https://js.bytescale.com/upload-widget/v3"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: #fafafa;
-    }
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-  </style>
-</head>
-<body>
-  <div>
-    <h2>Upload je STL-bestand</h2>
-    <div id="uploader"></div>
-  </div>
-
-  <script>
-    const uploader = Upload.create({
-      apiKey: "public_kW2K8ZP9YtV6V8k2kdfgZNxgNMFA", // 🔹 vervang dit met je echte public API key
-      multi: false,
-      mimeTypes: ["model/stl"], // Alleen STL-bestanden toegestaan
-      maxFileCount: 1,
-      layout: "inline",
-      container: "#uploader",
-      onUpdate: files => {
-        if (files.length > 0) {
-          const file = files[0];
-          alert(`✅ STL geüpload!\n\nDownloadlink:\n${file.fileUrl}`);
-          console.log("STL geüpload:", file.fileUrl);
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STL Uploader</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #fafafa;
       }
-    });
-    uploader.mount("#uploader");
-  </script>
-</body>
+      h2 {
+        font-weight: 600;
+      }
+    </style>
+    <!-- 👇 Bytescale widget moet HIER eerst geladen worden -->
+    <script src="https://js.bytescale.com/upload-widget/v3"></script>
+  </head>
+
+  <body>
+    <div id="uploader">
+      <h2>Upload je STL-bestand</h2>
+    </div>
+
+    <script>
+      // Wacht tot de widget beschikbaar is
+      window.addEventListener("load", function () {
+        const uploader = Upload.create({
+          apiKey: "public_kW2K8ZP9YtV6V8k2kdfgZNxgNMFA", // vervang met jouw Bytescale key
+          multi: false,
+          mimeTypes: ["model/stl"],
+          maxFileCount: 1,
+          layout: "inline",
+          container: "#uploader",
+          onUpdate: (files) => {
+            if (files.length > 0) {
+              const file = files[0];
+              alert("✅ STL succesvol geüpload!\n\nDownloadlink:\n" + file.fileUrl);
+              console.log("STL geüpload:", file.fileUrl);
+            }
+          },
+        });
+      });
+    </script>
+  </body>
 </html>
