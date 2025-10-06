@@ -1,49 +1,43 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-  <meta charset="UTF-8" />
-  <title>STL Uploader</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: #fafafa;
-      flex-direction: column;
-    }
-    #uploader {
-      margin-top: 20px;
-    }
-  </style>
-</head>
-<body>
-  <h2>Upload je STL-bestand</h2>
-  <div id="uploader"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Upload je 3D-bestand</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.css"
+    >
+    <script type="module">
+      import * as UC from 'https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.js';
+      UC.defineComponents(UC);
+    </script>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        margin-top: 40px;
+      }
+      h2 {
+        color: #333;
+      }
+    </style>
+  </head>
 
-  <!-- Mirror van Bytescale via jsDelivr (werkt altijd) -->
-  <script src="https://cdn.jsdelivr.net/gh/Bytescale/upload-widget@v3/dist/upload-widget.min.js"></script>
+  <body>
+    <h2>Upload je 3D-bestand</h2>
 
-  <script>
-    console.log("✅ Script geladen, start uploader...");
+    <uc-config
+      ctx-name="my-uploader"
+      source-list="local"
+      pubkey="2381c4bedbebc483b53d"
+    ></uc-config>
 
-    const uploader = Upload.create({
-      apiKey: "public_xxx_jouw_key", // vervang met jouw echte Bytescale API key
-      multi: false,
-      mimeTypes: ["model/stl"],
-      maxFileCount: 1,
-      layout: "inline",
-      container: "#uploader",
-      onUpdate: (files) => {
-        if (files.length > 0) {
-          const file = files[0];
-          alert("✅ STL succesvol geüpload! URL:\n" + file.fileUrl);
-          console.log("STL URL:", file.fileUrl);
-        }
-      },
-    });
-  </script>
-</body>
+    <uc-file-uploader-regular
+      ctx-name="my-uploader"
+      file-types=".stl,.obj,.step,.3mf"
+      class="my-config"
+    ></uc-file-uploader-regular>
+
+    <p>Toegestane bestanden: STL, OBJ, STEP, 3MF – max 100 MB</p>
+  </body>
 </html>
-
