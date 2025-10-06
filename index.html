@@ -8,6 +8,7 @@
       body {
         font-family: Arial, sans-serif;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100vh;
@@ -15,22 +16,31 @@
       }
       h2 {
         font-weight: 600;
+        margin-bottom: 20px;
       }
     </style>
-    <!-- 👇 Bytescale widget moet HIER eerst geladen worden -->
-    <script src="https://js.bytescale.com/upload-widget/v3"></script>
   </head>
 
   <body>
-    <div id="uploader">
-      <h2>Upload je STL-bestand</h2>
-    </div>
+    <h2>Upload je STL-bestand</h2>
+    <div id="uploader"></div>
 
+    <!-- Laad Bytescale script dynamisch -->
     <script>
-      // Wacht tot de widget beschikbaar is
-      window.addEventListener("load", function () {
+      const script = document.createElement("script");
+      script.src = "https://js.bytescale.com/upload-widget/v3";
+      script.onload = () => {
+        console.log("✅ Bytescale widget geladen");
+
+        // Controleer of Upload bestaat
+        if (typeof Upload === "undefined") {
+          console.error("❌ Upload is niet gedefinieerd. Script niet correct geladen.");
+          alert("Fout: uploadscript kon niet worden geladen.");
+          return;
+        }
+
         const uploader = Upload.create({
-          apiKey: "public_kW2K8ZP9YtV6V8k2kdfgZNxgNMFA", // vervang met jouw Bytescale key
+          apiKey: "public_kW2K8ZP9YtV6V8k2kdfgZNxgNMFA", // <-- vervang met je eigen public key!
           multi: false,
           mimeTypes: ["model/stl"],
           maxFileCount: 1,
@@ -39,12 +49,17 @@
           onUpdate: (files) => {
             if (files.length > 0) {
               const file = files[0];
-              alert("✅ STL succesvol geüpload!\n\nDownloadlink:\n" + file.fileUrl);
+              alert("✅ STL geüpload!\n\nDownloadlink:\n" + file.fileUrl);
               console.log("STL geüpload:", file.fileUrl);
             }
           },
         });
-      });
+      };
+      script.onerror = () => {
+        console.error("❌ Kon Bytescale widget niet laden.");
+        alert("Kon uploadscript niet laden. Controleer je internetverbinding of API-key.");
+      };
+      document.body.appendChild(script);
     </script>
   </body>
 </html>
