@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>STL Uploader</title>
+  <script src="https://js.bytescale.com/upload-widget/v3"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upload je STL-bestand</h2>
+  <div id="uploader"></div>
+
+  <script>
+    const uploader = Upload.create({
+      apiKey: "public_kW2K8ZP9YtV6V8k2kdfgZNxgNMFA", // vervang dit met je Bytescale public key
+      multi: false,
+      mimeTypes: ["model/stl"], // Alleen STL-bestanden
+      maxFileCount: 1,
+      layout: "inline",
+      container: "#uploader",
+      onUpdate: files => {
+        if (files.length > 0) {
+          const file = files[0];
+          alert("✅ STL succesvol geüpload!\n\nDownloadlink:\n" + file.fileUrl);
+          console.log("STL geüpload:", file.fileUrl);
+        }
+      }
+    });
+
+    uploader.mount("#uploader");
+  </script>
+</body>
+</html>
