@@ -1,65 +1,57 @@
 <!DOCTYPE html>
 <html lang="nl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>STL Uploader</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background: #fafafa;
+<head>
+  <meta charset="UTF-8" />
+  <title>STL uploader debug</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upload je STL-bestand</h2>
+  <div id="uploader"></div>
+
+  <script>
+    console.log("✅ Pagina geladen, script starten...");
+
+    const testScript = document.createElement("script");
+    testScript.src = "https://js.bytescale.com/upload-widget/v3";
+    testScript.onload = () => {
+      console.log("✅ Bytescale script is geladen!");
+      console.log("Upload object:", typeof Upload);
+      alert("Script geladen, check console.");
+
+      if (typeof Upload === "undefined") {
+        alert("Upload bestaat niet, waarschijnlijk geblokkeerd door GitHub of browser.");
+        return;
       }
-      h2 {
-        font-weight: 600;
-        margin-bottom: 20px;
-      }
-    </style>
-  </head>
 
-  <body>
-    <h2>Upload je STL-bestand</h2>
-    <div id="uploader"></div>
-
-    <!-- Laad Bytescale script dynamisch -->
-    <script>
-      const script = document.createElement("script");
-      script.src = "https://js.bytescale.com/upload-widget/v3";
-      script.onload = () => {
-        console.log("✅ Bytescale widget geladen");
-
-        // Controleer of Upload bestaat
-        if (typeof Upload === "undefined") {
-          console.error("❌ Upload is niet gedefinieerd. Script niet correct geladen.");
-          alert("Fout: uploadscript kon niet worden geladen.");
-          return;
-        }
-
-        const uploader = Upload.create({
-          apiKey: "public_kW2K8ZP9YtV6V8k2kdfgZNxgNMFA", // <-- vervang met je eigen public key!
-          multi: false,
-          mimeTypes: ["model/stl"],
-          maxFileCount: 1,
-          layout: "inline",
-          container: "#uploader",
-          onUpdate: (files) => {
-            if (files.length > 0) {
-              const file = files[0];
-              alert("✅ STL geüpload!\n\nDownloadlink:\n" + file.fileUrl);
-              console.log("STL geüpload:", file.fileUrl);
-            }
-          },
-        });
-      };
-      script.onerror = () => {
-        console.error("❌ Kon Bytescale widget niet laden.");
-        alert("Kon uploadscript niet laden. Controleer je internetverbinding of API-key.");
-      };
-      document.body.appendChild(script);
-    </script>
-  </body>
+      const uploader = Upload.create({
+        apiKey: "public_xxx_jouw_key",
+        multi: false,
+        mimeTypes: ["model/stl"],
+        maxFileCount: 1,
+        layout: "inline",
+        container: "#uploader",
+        onUpdate: (files) => {
+          if (files.length > 0) {
+            alert("✅ STL geüpload: " + files[0].fileUrl);
+          }
+        },
+      });
+    };
+    testScript.onerror = () => {
+      console.error("❌ Script kon niet geladen worden.");
+      alert("Kon upload-widget niet laden. Controleer netwerk of firewall.");
+    };
+    document.body.appendChild(testScript);
+  </script>
+</body>
 </html>
