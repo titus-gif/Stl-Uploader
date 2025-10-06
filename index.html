@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
-  <title>STL uploader debug</title>
+  <title>STL Uploader</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,6 +11,10 @@
       align-items: center;
       height: 100vh;
       background: #fafafa;
+      flex-direction: column;
+    }
+    #uploader {
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -18,40 +22,28 @@
   <h2>Upload je STL-bestand</h2>
   <div id="uploader"></div>
 
+  <!-- Mirror van Bytescale via jsDelivr (werkt altijd) -->
+  <script src="https://cdn.jsdelivr.net/gh/Bytescale/upload-widget@v3/dist/upload-widget.min.js"></script>
+
   <script>
-    console.log("✅ Pagina geladen, script starten...");
+    console.log("✅ Script geladen, start uploader...");
 
-    const testScript = document.createElement("script");
-    testScript.src = "https://js.bytescale.com/upload-widget/v3";
-    testScript.onload = () => {
-      console.log("✅ Bytescale script is geladen!");
-      console.log("Upload object:", typeof Upload);
-      alert("Script geladen, check console.");
-
-      if (typeof Upload === "undefined") {
-        alert("Upload bestaat niet, waarschijnlijk geblokkeerd door GitHub of browser.");
-        return;
-      }
-
-      const uploader = Upload.create({
-        apiKey: "public_xxx_jouw_key",
-        multi: false,
-        mimeTypes: ["model/stl"],
-        maxFileCount: 1,
-        layout: "inline",
-        container: "#uploader",
-        onUpdate: (files) => {
-          if (files.length > 0) {
-            alert("✅ STL geüpload: " + files[0].fileUrl);
-          }
-        },
-      });
-    };
-    testScript.onerror = () => {
-      console.error("❌ Script kon niet geladen worden.");
-      alert("Kon upload-widget niet laden. Controleer netwerk of firewall.");
-    };
-    document.body.appendChild(testScript);
+    const uploader = Upload.create({
+      apiKey: "public_xxx_jouw_key", // vervang met jouw echte Bytescale API key
+      multi: false,
+      mimeTypes: ["model/stl"],
+      maxFileCount: 1,
+      layout: "inline",
+      container: "#uploader",
+      onUpdate: (files) => {
+        if (files.length > 0) {
+          const file = files[0];
+          alert("✅ STL succesvol geüpload! URL:\n" + file.fileUrl);
+          console.log("STL URL:", file.fileUrl);
+        }
+      },
+    });
   </script>
 </body>
 </html>
+
